@@ -3,43 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página con Mensajes</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-        }
-        #mensajeContainer {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-            display: inline-block;
-        }
-    </style>
+    <title>Chat Simple</title>
 </head>
 <body>
-    <h1>Mensajes de Usuarios</h1>
-    <div id="mensajeContainer">No hay mensajes aún.</div>
+    <h2>Mensajes en la Página</h2>
+    <div id="contenido-mensajes"></div>
+    <input type="text" id="mensaje" placeholder="Escribe tu mensaje..." />
+    <button onclick="enviarMensaje()">Enviar</button>
 
     <script>
-        // Cargar mensajes anteriores
-        let mensajes = localStorage.getItem("mensajes") || ""; 
-        
-        // Pedir al usuario un nuevo mensaje
-        let nuevoMensaje = prompt("¿Qué mensaje quieres agregar?");
-        
-        if (nuevoMensaje) {
-            // Agregar el nuevo mensaje a los anteriores
-            mensajes += (mensajes ? "\n" : "") + nuevoMensaje;
-            localStorage.setItem("mensajes", mensajes); // Guardar en localStorage
-        }
+        // Escribir el primer mensaje cuando se carga la página
+        document.write("<p>Este es el primer mensaje en la página.</p>");
 
-        // Mostrar los mensajes en la página
-        document.getElementById("mensajeContainer").innerText = mensajes || "No hay mensajes aún.";
+        // Función para agregar más mensajes al contenido
+        function enviarMensaje() {
+            const mensaje = document.getElementById("mensaje").value;
+            if (mensaje.trim() !== "") {
+                // Usamos document.write solo para agregar el nuevo mensaje de forma secuencial
+                document.write("<p>" + mensaje + "</p>");
+                // Limpiar el campo de texto
+                document.getElementById("mensaje").value = "";
+            }
+        }
     </script>
 </body>
 </html>
-
-
