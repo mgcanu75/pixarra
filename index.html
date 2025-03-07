@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversación en Vivo (sin servidor)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #chatContainer {
+            width: 60%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        #mensajes {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Construye la Conversación</h1>
+    
+    <!-- Contenedor para los mensajes -->
+    <div id="chatContainer">
+        <div id="mensajes"></div>
+        <input type="text" id="mensajeInput" placeholder="Escribe tu comentario..." />
+        <button id="enviarBtn">Agregar Comentario</button>
+    </div>
+
+    <script>
+        // Cargar los mensajes previos desde localStorage
+        let mensajesGuardados = localStorage.getItem("mensajes") || "";
+        
+        // Mostrar los mensajes guardados al cargar la página
+        document.getElementById("mensajes").innerHTML = mensajesGuardados;
+
+        // Función para agregar un mensaje a la página y al localStorage
+        function agregarMensaje(mensaje) {
+            // Crear un nuevo párrafo con el mensaje
+            const mensajeElemento = document.createElement('p');
+            mensajeElemento.textContent = mensaje;
+            
+            // Agregar el mensaje al contenedor de mensajes
+            document.getElementById('mensajes').appendChild(mensajeElemento);
+            
+            // Actualizar el contenido de los mensajes guardados
+            mensajesGuardados += (mensajesGuardados ? "<br>" : "") + "<p>" + mensaje + "</p>";
+            localStorage.setItem("mensajes", mensajesGuardados); // Guardar en localStorage
+        }
+
+        // Event listener para el botón de enviar
+        document.getElementById("enviarBtn").addEventListener("click", () => {
+            const mensaje = document.getElementById("mensajeInput").value.trim();
+            if (mensaje) {
+                agregarMensaje(mensaje);
+                document.getElementById("mensajeInput").value = ''; // Limpiar el input
+            }
+        });
+
+        // También permite agregar el mensaje al presionar Enter
+        document.getElementById("mensajeInput").addEventListener("keypress", function (e) {
+            if (e.key === 'Enter') {
+                const mensaje = document.getElementById("mensajeInput").value.trim();
+                if (mensaje) {
+                    agregarMensaje(mensaje);
+                    document.getElementById("mensajeInput").value = ''; // Limpiar el input
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
